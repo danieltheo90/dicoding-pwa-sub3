@@ -51,7 +51,7 @@
   document.addEventListener("DOMContentLoaded", function () {
       var urlParams = new URLSearchParams(window.location.search);
       var id = Number(urlParams.get("tim"));
-      getTeamsId(id);    
+      
 
       var isFavorit = false
 
@@ -62,7 +62,9 @@
         isFavorit = true
         btnDelete.style.display = "block"
         btnSave.style.display = "none"
+        ToTimSavedHtml(id);
       }).catch((msg) => {
+        getTeamsId(id);    
         isFavorit = false
         btnDelete.style.display = "none"
         btnSave.style.display = "block"

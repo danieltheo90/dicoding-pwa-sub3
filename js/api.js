@@ -39,6 +39,7 @@ function error(error) {
 }
 // Blok kode untuk melakukan request data json
 
+//Klassemen
 function getKlassemen() {
     if ('caches' in window) {
     caches.match(url_klassemen).then(function (response) {
@@ -60,123 +61,6 @@ function getKlassemen() {
     })
     .catch(error);
 }
-
-function getTopScore() {
-    if ('caches' in window) {
-      caches.match(url_scorer).then(function (response) {
-        if (response) {
-          response.json().then(function (data) {
-            ToTopScrorerHtml(data);
-            console.dir("getTopScore " + data);
-          });
-        }
-      });
-    }
-
-  	fetchApi(url_scorer)
-      .then(status)
-      .then(json)
-      .then(function(data) {
-        // console.log(data);
-        ToTopScrorerHtml(data);
-       })
-      .catch(error);
-}
-
-function getTeamsId(teamid) {
-  // let urlParams = new URLSearchParams(window.location.search);
-  // let teamid = urlParams.get("id");
-  if ('caches' in window) {
-    caches.match(url_team + teamid).then(function (response) {
-      if (response) {
-        response.json().then(function (data) {
-          ToTimHtml(data);
-          // console.dir("getKlassemen " + data);
-        });
-      }
-    });
-  }
-  fetchApi(url_team + teamid)
-    .then(status)
-    .then(json)
-    .then(function(data) {
-      // console.log(data) ;
-      ToTimHtml(data);
-    })
-    .catch(error);
-}
-
-function getTeamsIdDetail(teamid) {
-  // let urlParams = new URLSearchParams(window.location.search);
-  // let teamid = urlParams.get("id");
-    return new Promise(function (resolve, reject) {
-      if ('caches' in window) {
-        caches.match(url_team + teamid).then(function (response) {
-          if (response) {
-            response.json().then(function (data) {
-              resolve(data);
-              // console.dir("getKlassemen " + data);
-            });
-          }
-        });
-      }
-      fetchApi(url_team + teamid)
-        .then(status)
-        .then(json)
-        .then(function(data) {
-          // console.log(data) ;
-          resolve(data);
-        })
-        .catch(error);
-  });
-}
-
-function getFavoritTeam() {
-  // let urlParams = new URLSearchParams(window.location.search);
-  // let teamid = urlParams.get("id");
-  var dataIndexDb = getAllDataFavorit();
-  dataIndexDb.then(function (data) {
-    
-  var timBodyHtml = '';
-   data.forEach(function(tim) {
-       timBodyHtml +=`
-            <li class="collection-item avatar">
-              <img src=${tim.crestUrl.replace(/^http:\/\//i, 'https://')} alt="" class="circle">
-              <span class="title">${tim.name}</span>
-                <p>Address: ${tim.address}<br>
-                website: <a href=${tim.website}>${tim.website}</a></p>
-
-            </li>
-  `;
-   });
-   document.getElementById("timBody").innerHTML = timBodyHtml;                  
-  });
-  
-}
-
-function ToTimHtml(data){
-  var timHeaderHtml = '';
-  var timBodyHtml = '';
-
-  timHeaderHtml=`
-      <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
-      <span class="card-title">${data.name}</span>
-      <hr>
-  `;
-
-  timBodyHtml =`
-      <p> Name : ${data.name} </p>
-      <p> Address : ${data.address} </p>
-      <p> Email : ${data.email} </p>
-      <p> Stadion: ${data.venue} </p>
-      <p> Website : ${data.website} </p>
-
-  `;
-
-   document.getElementById("timHeader").innerHTML = timHeaderHtml;
-   document.getElementById("timBody").innerHTML = timBodyHtml;
-}
-
 function ToKlassemenHtml(data){
    var klassemenHTML = '';
     var klassemCardContent ='';
@@ -214,7 +98,28 @@ function ToKlassemenHtml(data){
     document.getElementById("klassemenCard").innerHTML = klassemCardContent;
 }
 
+//Scorer
+function getTopScore() {
+    if ('caches' in window) {
+      caches.match(url_scorer).then(function (response) {
+        if (response) {
+          response.json().then(function (data) {
+            ToTopScrorerHtml(data);
+            console.dir("getTopScore " + data);
+          });
+        }
+      });
+    }
 
+  	fetchApi(url_scorer)
+      .then(status)
+      .then(json)
+      .then(function(data) {
+        // console.log(data);
+        ToTopScrorerHtml(data);
+       })
+      .catch(error);
+}
 function ToTopScrorerHtml(data){
     var topScorerTML = '';
       data.scorers.forEach(function(player) {
@@ -233,4 +138,167 @@ function ToTopScrorerHtml(data){
     });
 
     document.getElementById("topScorer").innerHTML = topScorerTML;
+}
+
+
+//Tim
+function getTeamsId(teamid) {
+  // let urlParams = new URLSearchParams(window.location.search);
+  // let teamid = urlParams.get("id");
+  if ('caches' in window) {
+    caches.match(url_team + teamid).then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          ToTimHtml(data);
+          // console.dir("getKlassemen " + data);
+        });
+      }
+    });
+  }
+  fetchApi(url_team + teamid)
+    .then(status)
+    .then(json)
+    .then(function(data) {
+      // console.log(data) ;
+      ToTimHtml(data);
+    })
+    .catch(error);
+}
+function getTeamsIdDetail(teamid) {
+  // let urlParams = new URLSearchParams(window.location.search);
+  // let teamid = urlParams.get("id");
+    return new Promise(function (resolve, reject) {
+      if ('caches' in window) {
+        caches.match(url_team + teamid).then(function (response) {
+          if (response) {
+            response.json().then(function (data) {
+              resolve(data);
+              // console.dir("getKlassemen " + data);
+            });
+          }
+        });
+      }
+      fetchApi(url_team + teamid)
+        .then(status)
+        .then(json)
+        .then(function(data) {
+          // console.log(data) ;
+          resolve(data);
+        })
+        .catch(error);
+  });
+}
+function ToTimHtml(data){
+  var timHeaderHtml = '';
+  var timBodyHtml = '';
+  timHeaderHtml=`
+      <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
+      <span class="card-title">${data.name}</span>
+      <hr>
+  `;
+  timBodyHtml =`
+      <p><a href="./player.html?team=${data.id}">   Name : ${data.name} </a></p>
+      <p> Address : ${data.address} </p>
+      <p> Email : ${data.email} </p>
+      <p> Stadion: ${data.venue} </p>
+      <p> Website : ${data.website} </p>
+
+  `;
+   document.getElementById("timHeader").innerHTML = timHeaderHtml;
+   document.getElementById("timBody").innerHTML = timBodyHtml;
+}
+
+//Tim
+function ToTimSavedHtml(id){
+  getTeamById(id).then(function(data) {
+    var timHeaderHtml = '';
+    var timBodyHtml = '';
+    timHeaderHtml=`
+        <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
+        <span class="card-title">${data.name}</span>
+        <hr>
+    `;
+    timBodyHtml =`
+        <p><a href="./player.html?team=${data.id}">   Name : ${data.name} </a></p>
+        <p> Address : ${data.address} </p>
+        <p> Email : ${data.email} </p>
+        <p> Stadion: ${data.venue} </p>
+        <p> Website : ${data.website} </p>
+    `;
+     document.getElementById("timHeader").innerHTML = timHeaderHtml;
+     document.getElementById("timBody").innerHTML = timBodyHtml;
+    });  
+}
+
+//Favorit
+function getFavoritTeam() {
+  // let urlParams = new URLSearchParams(window.location.search);
+  // let teamid = urlParams.get("id");
+  var dataIndexDb = getAllDataFavorit();
+  dataIndexDb.then(function (data) {
+    
+  var timBodyHtml = '';
+   data.forEach(function(tim) {
+       timBodyHtml +=`
+            <li class="collection-item avatar">
+              <img src=${tim.crestUrl.replace(/^http:\/\//i, 'https://')} alt="" class="circle">
+              <span class="title"><a href="./player.html?team=${tim.id}"> ${tim.name}</a></span>
+                <p>Address: ${tim.address}<br>
+                website: <a href=${tim.website}>${tim.website}</a></p>
+
+            </li>
+  `;
+   });
+   document.getElementById("timBody").innerHTML = timBodyHtml;                  
+  });
+  
+}
+
+//Player
+function getListPlayerTeam(id) {
+    if ('caches' in window) {
+    caches.match(url_team + id).then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          // console.log(data)
+          ToPlayerHtml(data);
+
+          // console.dir("getKlassemen " + data);
+        });
+      }
+    });
+  }
+
+  fetchApi(url_team + id)
+    .then(status)
+    .then(json)
+    .then(function(data) {
+      // console.log(data)
+      ToPlayerHtml(data) 
+    })
+    .catch(error);
+}
+function ToPlayerHtml(data){
+  var playerBodyHtml = '';
+  var playerHeaderHtml = '';
+  // console.log(data);
+
+  playerHeaderHtml=`
+      <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
+      <span class="card-title">${data.name}</span>
+      <hr>
+  `;
+  data.squad.forEach(function(player) {
+       playerBodyHtml +=`
+          <p> Name : ${player.name} </p>
+          <p> Position : ${player.position} </p>
+          <p> Nationality : ${player.nationality} </p>
+          <p> ShirtNumber: ${player.shirtNumber} </p>
+          <p> Role : ${player.role} </p>
+          <hr>
+      `;
+  })
+ 
+   document.getElementById("playerBody").innerHTML = playerBodyHtml;
+   document.getElementById("playerHeader").innerHTML = playerHeaderHtml;
 }

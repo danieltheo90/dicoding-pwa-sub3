@@ -52,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function(){
             page = "scorer";
          } else if (page == "favorit") {
             page = "favorit";
+        } else if (page == "player") {
+            page = "player";
         }
         return page;
     }
@@ -69,6 +71,9 @@ document.addEventListener('DOMContentLoaded', function(){
                    	getTopScore();
                  } else if (page === "favorit") {
                    	getFavoritTeam();
+                } else if (page === "player") {
+                	var idteam =  urlParams.get("team");
+                   	getListPlayerTeam(idteam);
                 }
 
 				if(this.status == 200) {

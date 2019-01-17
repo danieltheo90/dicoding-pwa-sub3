@@ -90,3 +90,17 @@ function getAllDataFavorit() {
           });
   });
 }
+
+function getTeamById(id) {
+  return new Promise(function(resolve, reject) {
+    dbPromised
+      .then(function(db) {
+        var tx = db.transaction("teamFav", "readonly");
+        var store = tx.objectStore("teamFav");
+        return store.get(id);
+      })
+      .then(function(data) {
+        resolve(data);
+      });
+  });
+}
