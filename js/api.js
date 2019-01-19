@@ -104,6 +104,7 @@ function ToKlassemenHtml(data){
     document.getElementById("klassemenCard").innerHTML = klassemCardContent;
 }
 
+
 //Scorer
 function getTopScore() {
     if ('caches' in window) {
