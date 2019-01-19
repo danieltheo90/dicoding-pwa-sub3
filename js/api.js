@@ -16,6 +16,7 @@ let fetchApi = url => {
     }
   });
 }
+
 //var base_url = "https://readerapi.codepolitan.com/";
 // Blok kode yang akan di panggil jika fetch berhasil
 function status(response) {
@@ -69,19 +70,24 @@ function ToKlassemenHtml(data){
        <span class="card-title">${data.competition.name} ${data.competition.area.name} ${data.standings[0].stage} ${data.competition.id} </span>
     `;
     data.standings[0].table.forEach(function(team) {
-      // console.log(team,team.position);
+      // console.log(team.team.crestUrl );
+      if (team.team.crestUrl === null){
+        var gambar = '/images/img/no_image.png';
+      }else{
+        gambar = team.team.crestUrl.replace(/^http:\/\//i, 'https://');
+      }
       klassemenHTML += `
               
                 <td>${team.position}</td>
                 <td>
                   <a href="./tim.html?tim=${team.team.id}">
                   <p class="hide-on-small-only">
-                    <img class="responsive-img" width="20" height="20" src="${ team.team.crestUrl || '/images/img/no_image.png'}">${team.team.name}
+                    <img class="responsive-img" width="20" height="20" src="${gambar}" alt="${team.team.name}">${team.team.name}
                   </p>
                   </a>
                   <a href="./tim.html?tim=${team.team.id}">
                    <p class="hide-on-med-and-up">
-                    <img class="responsive-img" width="20" height="20" src="${ team.team.crestUrl || '/images/img/no_image.png'}">
+                    <img class="responsive-img" width="20" height="20" src="${gambar}"  alt="${team.team.name}">
                   </p>
                   </a>
                 </td>
@@ -191,8 +197,14 @@ function getTeamsIdDetail(teamid) {
 function ToTimHtml(data){
   var timHeaderHtml = '';
   var timBodyHtml = '';
+  if (data.crestUrl === null){
+        var gambar = '/images/img/no_image.png';
+      }else{
+        gambar = data.crestUrl.replace(/^http:\/\//i, 'https://');
+      }
+
   timHeaderHtml=`
-      <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
+      <img src=${gambar} align="center" width="100" height="100" alt="${data.name}">
       <span class="card-title">${data.name}</span>
       <hr>
   `;
@@ -213,8 +225,13 @@ function ToTimSavedHtml(id){
   getTeamById(id).then(function(data) {
     var timHeaderHtml = '';
     var timBodyHtml = '';
+    if (data.crestUrl === null){
+      var gambar = '/images/img/no_image.png';
+    }else{
+      gambar = data.crestUrl.replace(/^http:\/\//i, 'https://');
+    }
     timHeaderHtml=`
-        <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
+        <img src=${gambar} align="center" width="100" height="100" alt="${data.name}">
         <span class="card-title">${data.name}</span>
         <hr>
     `;
@@ -239,9 +256,14 @@ function getFavoritTeam() {
     
   var timBodyHtml = '';
    data.forEach(function(tim) {
+      if (tim.crestUrl === null){
+        var gambar = '/images/img/no_image.png';
+      }else{
+        gambar = tim.crestUrl.replace(/^http:\/\//i, 'https://');
+      }
        timBodyHtml +=`
             <li class="collection-item avatar">
-              <img src=${tim.crestUrl.replace(/^http:\/\//i, 'https://')} alt="" class="circle">
+              <img src=${gambar} alt="${tim.name}" class="circle">
               <span class="title"><a href="./player.html?team=${tim.id}"> ${tim.name}</a></span>
                 <p>Address: ${tim.address}<br>
                 website: <a href=${tim.website}>${tim.website}</a></p>
@@ -282,9 +304,14 @@ function ToPlayerHtml(data){
   var playerBodyHtml = '';
   var playerHeaderHtml = '';
   // console.log(data);
+  if (data.crestUrl === null){
+    var gambar = '/images/img/no_image.png';
+  }else{
+    gambar = data.crestUrl.replace(/^http:\/\//i, 'https://');
+  }
 
   playerHeaderHtml=`
-      <img src=${data.crestUrl.replace(/^http:\/\//i, 'https://')} align="center" width="100" height="100">
+      <img src=${gambar} align="center" width="100" height="100" alt="${data.name}">
       <span class="card-title">${data.name}</span>
       <hr>
   `;
