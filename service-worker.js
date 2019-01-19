@@ -12,6 +12,10 @@ if (workbox) {
             revision: '1'
         },
         {
+            url: '/404.html',
+            revision: '1'
+        },
+        {
             url: '/tim.html',
             revision: '1'
         },
