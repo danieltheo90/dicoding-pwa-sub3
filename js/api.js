@@ -268,7 +268,7 @@ function getFavoritTeam() {
               <span class="title"><a href="./player.html?team=${tim.id}"> ${tim.name}</a></span>
                 <p>Address: ${tim.address}<br>
                 website: <a href=${tim.website}>${tim.website}</a></p>
-                <input type="button"  value="Add Students" onclick="deleteFavoriteTeam(${tim.id})"/>
+                <input type="button"  value="DeleteFavorit" onclick="deleteFavoriteTeamIn(${tim.id})"/>
             </li>
   `;
    });

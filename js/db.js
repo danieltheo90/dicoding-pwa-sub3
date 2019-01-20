@@ -78,7 +78,7 @@ function deleteFavoriteTeam(data) {
 }
 
 
-function deleteFavoriteTeam(data) {
+function deleteFavoriteTeamIn(data) {
    dbPromised.then(function(db) {
       var tx = db.transaction('teamFav', 'readwrite');
       var store = tx.objectStore('teamFav');
@@ -86,7 +86,7 @@ function deleteFavoriteTeam(data) {
       store.delete(data);
       return tx.complete;
   }).then(function() {
-    location.reload();
+    getFavoritTeam();
   }).catch(function(err) {
       console.log(err);
   })
