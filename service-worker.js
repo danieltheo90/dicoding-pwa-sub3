@@ -110,7 +110,6 @@ if (workbox) {
        
     ]);
 
-
     workbox.routing.registerRoute(
         /.*(?:png|gif|jpg|jpeg|svg)$/,
         workbox.strategies.cacheFirst({

@@ -254,7 +254,7 @@ function getFavoritTeam() {
   // let teamid = urlParams.get("id");
   var dataIndexDb = getAllDataFavorit();
   dataIndexDb.then(function (data) {
-    
+  console.log(data);  
   var timBodyHtml = '';
    data.forEach(function(tim) {
       if (tim.crestUrl === null){
@@ -268,7 +268,7 @@ function getFavoritTeam() {
               <span class="title"><a href="./player.html?team=${tim.id}"> ${tim.name}</a></span>
                 <p>Address: ${tim.address}<br>
                 website: <a href=${tim.website}>${tim.website}</a></p>
-
+                <input type="button"  value="Add Students" onclick="deleteFavoriteTeam(${tim.id})"/>
             </li>
   `;
    });

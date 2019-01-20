@@ -77,6 +77,21 @@ function deleteFavoriteTeam(data) {
   })
 }
 
+
+function deleteFavoriteTeam(data) {
+   dbPromised.then(function(db) {
+      var tx = db.transaction('teamFav', 'readwrite');
+      var store = tx.objectStore('teamFav');
+      
+      store.delete(data);
+      return tx.complete;
+  }).then(function() {
+    location.reload();
+  }).catch(function(err) {
+      console.log(err);
+  })
+}
+
 function getAllDataFavorit() {
   return new Promise(function (resolve, reject) {
       dbPromised
